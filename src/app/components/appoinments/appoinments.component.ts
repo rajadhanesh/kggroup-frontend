@@ -49,22 +49,28 @@ export class AppoinmentsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * To get appoinment list method
+   */
   getAppoinmentList() {
-      this.appoinmentsService.getAppoinmentList(this.calenderDate).subscribe((resp: any) => {
-        if(resp.status) {
-          const data = resp.data;
-          this.appoinment = data;
-          this.displaySlots = this.appoinment;
-        } else {
+    this.appoinmentsService.getAppoinmentList(this.calenderDate).subscribe((resp: any) => {
+      if (resp.status) {
+        const data = resp.data;
+        this.appoinment = data;
+        this.displaySlots = this.appoinment;
+      } else {
 
-        }
-      });
+      }
+    });
   }
 
-
-  createAppoinment(payload) {
+  /**
+   * To create new slot
+   * @param payload (contain date, session (true/false - morning/aftenoon), from time, to time)
+   */
+  createAppoinment(payload: any) {
     this.appoinmentsService.createAppoinemnt(payload).subscribe((resp: any) => {
-      if(resp.status) {
+      if (resp.status) {
         this.displaySlots.push(resp.data);
         this.toastrService.success(resp.message);
       } else {
@@ -131,7 +137,7 @@ export class AppoinmentsComponent implements OnInit {
 
 
   timeSubmit() {
-    if(!this.timeValid.duration && !this.timeValid.from && !this.timeValid.to && this.timeValid.fromFormat && this.timeValid.toFormat) {
+    if (!this.timeValid.duration && !this.timeValid.from && !this.timeValid.to && this.timeValid.fromFormat && this.timeValid.toFormat) {
       let payload = {
         date: this.calenderDate,
         session: this.modalOpenFrom,

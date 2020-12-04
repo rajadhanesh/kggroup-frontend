@@ -1,5 +1,6 @@
 <div class="container-fluid bg-color pt-5 pb-5">
     <div class="container bg-light rounded">
+        <!-- Header contain datepicker and appoinment page navigation Begins -->
         <header class="row p-2">
             <div class="col-6">
                 <div class="row">
@@ -7,7 +8,8 @@
                     <div class="col-5"></div>
                     <div class="col-4">
                         <input type="text" class="form-control" #dp="bsDatepicker"
-                            [bsConfig]="{ dateInputFormat: 'DD MMM YYYY' }" bsDatepicker [(bsValue)]="myDateValue" (bsValueChange)="onValueChange($event)">
+                            [bsConfig]="{ dateInputFormat: 'DD MMM YYYY' }" bsDatepicker [(bsValue)]="myDateValue"
+                            (bsValueChange)="onValueChange($event)">
                     </div>
                 </div>
             </div>
@@ -29,6 +31,7 @@
                 </div>
             </div>
         </header>
+        <!-- Header contain datepicker and appoinment page navigation End -->
 
         <div class="">
             <nav aria-label="breadcrumb">
@@ -38,9 +41,13 @@
             </nav>
         </div>
 
+        <!-- Tabset begins -->
         <div class="row">
             <div class="col-2">
-
+                <div class="text-center app-text-color">
+                    <h6>{{ displaySlots.length }}</h6>
+                    <p>Queu</p>
+                </div>
             </div>
             <div class="col-10">
                 <tabset>
@@ -53,21 +60,22 @@
                             <div class="col-12">
                                 <table class="table">
                                     <thead>
-                                      <tr>
-                                        <th>PATIENT</th>
-                                        <th>CONTACT</th>
-                                        <th>APPOINMENT</th>
-                                        <th>WAITED</th>
-                                      </tr>
+                                        <tr>
+                                            <th>PATIENT</th>
+                                            <th>CONTACT</th>
+                                            <th>APPOINMENT</th>
+                                            <th>WAITED</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                      <tr *ngFor="let list of displaySlots">
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{ list.from | date: 'shortTime' }}</td>
-                                      </tr>
+                                        <tr *ngFor="let list of displaySlots">
+                                            <td>{{ list.name }}</td>
+                                            <td>{{ list.mobileNo }}</td>
+                                            <td>{{ list.time }}</td>
+                                            <td>{{ list.waitingTime }} minutes</td>
+                                        </tr>
                                     </tbody>
-                                  </table>
+                                </table>
                             </div>
                         </div>
                     </tab>
@@ -86,5 +94,7 @@
                 </tabset>
             </div>
         </div>
+
+        <!-- Tabset End -->
     </div>
 </div>

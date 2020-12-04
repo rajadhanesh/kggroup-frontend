@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Appoinment } from '../../model/appoinment';
 import { AppoinmentsService } from '../../services/appoinments.service';
 
+import { PatientService } from '../../services/patient.service';
 
 @Component({
   selector: 'app-home',
@@ -11,13 +12,11 @@ import { AppoinmentsService } from '../../services/appoinments.service';
 export class HomeComponent implements OnInit {
   myDateValue: Date;
   minDate: Date;
-
   calenderDate: any;
-
   appoinment: Appoinment;
   displaySlots: any;
 
-  constructor(private appoinmentsService: AppoinmentsService) { 
+  constructor(private patientService: PatientService) {
     this.displaySlots = [];
   }
 
@@ -25,12 +24,11 @@ export class HomeComponent implements OnInit {
     this.myDateValue = new Date();
   }
 
-  onDateChange(newDate: Date) {
-    console.log(newDate);
-  }
-
+  /**
+   * To get appoinment List method
+   */
   getAppoinmentList() {
-    this.appoinmentsService.getAppoinmentList(this.calenderDate).subscribe((resp: any) => {
+    this.patientService.getBookedList(this.calenderDate).subscribe((resp: any) => {
       if (resp.status) {
         const data = resp.data;
         this.appoinment = data;
@@ -41,6 +39,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /**
+   * To to selected date and get appoinment list
+   * @param value (calender selected date)
+   */
   onValueChange(value: Date): void {
     this.calenderDate = value.toLocaleDateString();
     this.getAppoinmentList();
