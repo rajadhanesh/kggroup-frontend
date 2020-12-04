@@ -7,7 +7,7 @@
                     <div class="col-5"></div>
                     <div class="col-4">
                         <input type="text" class="form-control" #dp="bsDatepicker"
-                            [bsConfig]="{ dateInputFormat: 'DD MMM YYYY' }" bsDatepicker [(bsValue)]="myDateValue">
+                            [bsConfig]="{ dateInputFormat: 'DD MMM YYYY' }" bsDatepicker [(bsValue)]="myDateValue" (bsValueChange)="onValueChange($event)">
                     </div>
                 </div>
             </div>
@@ -61,20 +61,10 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                      <tr>
-                                        <td>John</td>
-                                        <td>Doe</td>
-                                        <td>john@example.com</td>
-                                      </tr>
-                                      <tr>
-                                        <td>Mary</td>
-                                        <td>Moe</td>
-                                        <td>mary@example.com</td>
-                                      </tr>
-                                      <tr>
-                                        <td>July</td>
-                                        <td>Dooley</td>
-                                        <td>july@example.com</td>
+                                      <tr *ngFor="let list of displaySlots">
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ list.from | date: 'shortTime' }}</td>
                                       </tr>
                                     </tbody>
                                   </table>

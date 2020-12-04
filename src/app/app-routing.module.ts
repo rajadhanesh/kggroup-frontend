@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { HomeComponent } from './home/home.component';
-import { AppoinmentsComponent } from './appoinments/appoinments.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { HomeComponent } from './components/home/home.component';
+import { AppoinmentsComponent } from './components/appoinments/appoinments.component';
 
 
 

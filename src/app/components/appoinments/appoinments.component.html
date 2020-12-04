@@ -14,7 +14,7 @@
         </div>
         <div class="row p-3">
             <div class="col-4">
-                <bs-datepicker-inline [bsValue]="bsInlineValue"></bs-datepicker-inline>
+                <bs-datepicker-inline [bsValue]="bsInlineValue" (bsValueChange)="onValueChange($event)"></bs-datepicker-inline>
             </div>
             <div class="col-8">
                 <div class="row">
@@ -28,14 +28,18 @@
                                     </div>
                                     <div class="col-6">
                                         <button class="btn btn-light float-right app-text-color"
-                                            style="font-size: 13px;" (click)="openModal(template)">+ Add
+                                            style="font-size: 13px;" (click)="openModal(template, true)">+ Add
                                             Slot</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <button class="btn btn-outline-secondary mr-3" style="font-size: 13px;">9:00 AM</button>
+                                <ng-container *ngFor="let i of displaySlots">
+                                    <ng-container *ngIf="i.session">
+                                        <button class="btn btn-outline-secondary mr-3" style="font-size: 13px;">{{ i.from | date: 'shortTime'}}</button>
+                                    </ng-container>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
@@ -50,14 +54,18 @@
                                     </div>
                                     <div class="col-6">
                                         <button class="btn btn-light float-right app-text-color"
-                                            style="font-size: 13px;">+ Add
+                                            style="font-size: 13px;" (click)="openModal(template, false)">+ Add
                                             Slot</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <button class="btn btn-outline-secondary mr-3" style="font-size: 13px;">9:00 AM</button>
+                                <ng-container *ngFor="let i of displaySlots">
+                                    <ng-container *ngIf="!i.session">
+                                        <button class="btn btn-outline-secondary mr-3" style="font-size: 13px;">{{ i.from | date: 'shortTime'}}</button>
+                                    </ng-container>
+                                </ng-container>
                             </div>
                         </div>
                     </div>
@@ -76,21 +84,23 @@
         </button>
     </div>
     <div class="modal-body">
-        <form>
+        <form (ngSubmit)="timeSubmit()">
             <div class="form-group">
                 <label for="fromTime">From Time</label>
-                <timepicker [(ngModel)]="morning.from" name="myStarttime" [showMeridian]="isMeridian" (isValid)="isValidMS($event)"></timepicker>
-                <div *ngIf="!mornigValid.fromFormat" class="alert alert-danger">Invalid time</div>
-                <div *ngIf="mornigValid.from" class="alert alert-danger">please select time beween 09:00 - 12:00</div>
+                <timepicker [(ngModel)]="time.from" name="myStarttime" [showMeridian]="isMeridian"
+                    (isValid)="isValid($event, true)"></timepicker>
+                <div *ngIf="!timeValid.fromFormat" class="alert alert-danger">Invalid time</div>
+                <div *ngIf="timeValid.from" class="alert alert-danger">please select time beween {{ timeValid.message }}</div>
             </div>
             <div class="form-group">
                 <label for="toTime">To Time</label>
-                <timepicker [(ngModel)]="morning.to" name="myEndtime" [showMeridian]="isMeridian" (isValid)="isValidME($event)"></timepicker>
-                <div *ngIf="!mornigValid.toFormat" class="alert alert-danger">Invalid time</div>
-                <div *ngIf="mornigValid.to" class="alert alert-danger">please select time beween 09:00 - 12:00</div>
+                <timepicker [(ngModel)]="time.to" name="myEndtime" [showMeridian]="isMeridian"
+                    (isValid)="isValid($event, false)"></timepicker>
+                <div *ngIf="!timeValid.toFormat" class="alert alert-danger">Invalid time</div>
+                <div *ngIf="timeValid.to" class="alert alert-danger">please select time beween {{ timeValid.message }}</div>
             </div>
 
-            <div *ngIf="mornigValid.duration" class="alert alert-danger">duration of the slot should be 30mins</div>
+            <div *ngIf="timeValid.duration" class="alert alert-danger">duration of the slot should be 30mins</div>
             <button type="submit" class="btn btn-primary float-right ml-2">Submit</button>
             <button class="btn btn-light float-right" (click)="modalClose()">Cancel</button>
         </form>

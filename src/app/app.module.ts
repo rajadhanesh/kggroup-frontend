@@ -6,12 +6,14 @@ import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { AppoinmentsComponent } from './appoinments/appoinments.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { HomeComponent } from './components/home/home.component';
+import { AppoinmentsComponent } from './components/appoinments/appoinments.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     TimepickerModule.forRoot(),
     DatepickerModule.forRoot(),
     TabsModule.forRoot(),
-    ModalModule.forRoot() 
+    ModalModule.forRoot(),
+    HttpClientModule,
+    ToastrModule.forRoot() 
   ],
   providers: [],
   bootstrap: [AppComponent]
