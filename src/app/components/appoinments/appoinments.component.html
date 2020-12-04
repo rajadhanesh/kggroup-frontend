@@ -1,0 +1,113 @@
+<div class="container-fluid bg-color pt-5 pb-5">
+    <div class="container bg-light rounded pb-4">
+        <header class="row p-2">
+
+        </header>
+        <div class="row">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-light">
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <span> Appoinments | home > appoinments</span>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <div class="row p-3">
+            <div class="col-4">
+                <bs-datepicker-inline [bsValue]="bsInlineValue" (bsValueChange)="onValueChange($event)"></bs-datepicker-inline>
+            </div>
+
+            <!-- Morning and Evening slots Begins -->
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-12 mb-5">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong class="text-secondary">Morning</strong>
+                                        <div class="text-muted">9:00 AM to 12:00 PM</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-light float-right app-text-color"
+                                            style="font-size: 13px;" (click)="openModal(addSlotTemplate, true)">+ Add
+                                            Slot</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <ng-container *ngFor="let i of displaySlots">
+                                    <ng-container *ngIf="i.session">
+                                        <button class="btn btn-outline-secondary mr-3" style="font-size: 13px;">{{ i.from | date: 'shortTime'}}</button>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-5">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong class="text-secondary">Evening</strong>
+                                        <div class="text-muted">5:00 AM to 09:00 PM</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn btn-light float-right app-text-color"
+                                            style="font-size: 13px;" (click)="openModal(addSlotTemplate, false)">+ Add
+                                            Slot</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <ng-container *ngFor="let i of displaySlots">
+                                    <ng-container *ngIf="!i.session">
+                                        <button class="btn btn-outline-secondary mr-3" style="font-size: 13px;">{{ i.from | date: 'shortTime'}}</button>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <!-- Morning and Evening slots End -->
+        </div>
+    </div>
+</div>
+
+<!-- Add Slot Modal Begins -->
+<ng-template #addSlotTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Add Slot</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalClose()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="timeSubmit()">
+            <div class="form-group">
+                <label for="fromTime">From Time</label>
+                <timepicker [(ngModel)]="time.from" name="myStarttime" [showMeridian]="isMeridian"
+                    (isValid)="isValid($event, true)"></timepicker>
+                <div *ngIf="!timeValid.fromFormat" class="alert alert-danger">Invalid time</div>
+                <div *ngIf="timeValid.from" class="alert alert-danger">please select time beween {{ timeValid.message }}</div>
+            </div>
+            <div class="form-group">
+                <label for="toTime">To Time</label>
+                <timepicker [(ngModel)]="time.to" name="myEndtime" [showMeridian]="isMeridian"
+                    (isValid)="isValid($event, false)"></timepicker>
+                <div *ngIf="!timeValid.toFormat" class="alert alert-danger">Invalid time</div>
+                <div *ngIf="timeValid.to" class="alert alert-danger">please select time beween {{ timeValid.message }}</div>
+            </div>
+
+            <div *ngIf="timeValid.duration" class="alert alert-danger">duration of the slot should be 30mins</div>
+            <button type="submit" class="btn btn-primary float-right ml-2">Submit</button>
+            <button class="btn btn-light float-right" (click)="modalClose()">Cancel</button>
+        </form>
+    </div>
+</ng-template>
+<!-- Add Slot Modal End -->
